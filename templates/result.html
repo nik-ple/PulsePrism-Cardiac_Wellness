@@ -1,25 +1,231 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Result</title>
-    <style>
-        body{
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        margin:0;
-        padding:0;
-        display:flex;
-        flex-direction:column;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulsePrism — Your Assessment Result</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:#FAF7F2; --cream2:#F3EDE3; --cream3:#EDE4D6;
+      --forest:#1D4731; --forest2:#2A5C40; --forest3:#3A7A57;
+      --blush:#E8917A; --blush2:#D4755E;
+      --sage:#7BA592; --sage2:#A8C5B8;
+      --warm:#C4965A; --charcoal:#2C2C2C;
+      --mid:#6B6B6B; --light:#9A9A9A;
+      --green:#2D7D4F; --red:#C0392B;
+      --border:rgba(45,71,49,0.1); --border2:rgba(45,71,49,0.06);
+    }
+    body { font-family:'Instrument Sans',sans-serif; background:var(--cream); color:var(--charcoal); min-height:100vh; display:flex; flex-direction:column; }
 
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 56px; height:76px;
+      background:rgba(250,247,242,0.95); backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-logo img { height:29px; }
+    .nav-logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:1.2rem; color:var(--forest); }
+    .nav-logo-sub { font-size:0.62rem; color:var(--sage); letter-spacing:0.06em; text-transform:uppercase; margin-top:1px; }
+    .nav-links { display:flex; align-items:center; gap:36px; list-style:none; }
+    .nav-links a { color:var(--mid); text-decoration:none; font-size:0.875rem; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--forest); }
+    .nav-cta { background:var(--forest) !important; color:var(--cream) !important; padding:10px 24px; border-radius:100px; font-weight:500 !important; }
+
+    main { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:110px 24px 80px; }
+
+    .result-wrap { width:100%; max-width:640px; }
+
+    /* Big result card */
+    .result-card {
+      background:#fff; border:1px solid var(--border);
+      border-radius:28px; overflow:hidden;
+      box-shadow:0 8px 40px rgba(29,71,49,0.08);
+      animation:fadeIn 0.5s ease both;
+    }
+
+    .result-band { height:6px; background:linear-gradient(90deg,var(--forest),var(--sage),var(--blush)); }
+
+    .result-body { padding:48px 40px 36px; text-align:center; }
+
+    .result-ornament {
+      width: 80px; height: 80px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 2rem;
+    }
+    .result-ornament.low-risk { background:rgba(45,125,79,0.08); border:2px solid rgba(45,125,79,0.25); }
+    .result-ornament.high-risk { background:rgba(192,57,43,0.08); border:2px solid rgba(192,57,43,0.25); }
+
+    .result-eyebrow { font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--light); margin-bottom:10px; }
+
+    .result-headline {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.6rem,4vw,2.4rem); font-weight:700;
+      line-height:1.2; margin-bottom:14px;
+    }
+    .result-headline.low-risk { color:var(--green); }
+    .result-headline.high-risk { color:var(--red); }
+
+    .result-sub { color:var(--mid); font-size:0.95rem; line-height:1.7; font-weight:300; max-width:440px; margin:0 auto; }
+
+    .result-divider { height:1px; background:var(--border2); margin:32px 40px; }
+
+    /* Model metrics */
+    .metrics { padding:0 40px 32px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .metric-tile { text-align:center; padding:18px; background:var(--cream2); border-radius:16px; border:1px solid var(--border2); }
+    .metric-num { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--forest); }
+    .metric-lbl { font-size:0.68rem; color:var(--light); margin-top:3px; letter-spacing:0.03em; text-transform:uppercase; }
+
+    /* Confidence bars */
+    .confidence { padding:0 40px 36px; }
+    .conf-title { font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--light); margin-bottom:16px; }
+    .conf-row { display:flex; align-items:center; margin-bottom:12px; }
+    .conf-row:last-child { margin-bottom:0; }
+    .conf-label { font-size:0.82rem; color:var(--mid); width:140px; flex-shrink:0; }
+    .conf-track { flex:1; height:5px; background:var(--cream3); border-radius:3px; overflow:hidden; margin:0 14px; }
+    .conf-fill { height:100%; border-radius:3px; background:var(--forest3); }
+    .conf-val { font-size:0.82rem; font-weight:600; color:var(--forest); min-width:48px; text-align:right; }
+
+    /* Actions */
+    .result-actions { padding:24px 40px 36px; display:flex; gap:12px; flex-wrap:wrap; }
+
+    .btn-filled {
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--forest); color:var(--cream);
+      padding:12px 24px; border-radius:100px;
+      font-size:0.875rem; font-weight:500;
+      text-decoration:none; border:none; cursor:pointer;
+      font-family:'Instrument Sans',sans-serif;
+      transition:background 0.25s, transform 0.2s;
+    }
+    .btn-filled:hover { background:var(--forest2); transform:translateY(-1px); }
+    .btn-outline {
+      display:inline-flex; align-items:center; gap:8px;
+      background:transparent; color:var(--forest);
+      padding:12px 24px; border-radius:100px;
+      font-size:0.875rem; font-weight:400;
+      text-decoration:none; border:1.5px solid var(--border);
+      transition:border-color 0.2s;
+      font-family:'Instrument Sans',sans-serif;
+    }
+    .btn-outline:hover { border-color:var(--forest); }
+
+    /* Disclaimer */
+    .disclaimer-card {
+      background:rgba(196,150,90,0.06); border:1px solid rgba(196,150,90,0.2);
+      border-radius:20px; padding:20px 24px;
+      display:flex; gap:14px; margin-top:16px;
+      animation:fadeIn 0.5s 0.15s ease both;
+    }
+    .disc-ico { font-size:1.2rem; flex-shrink:0; margin-top:1px; }
+    .disclaimer-card h4 { font-size:0.82rem; font-weight:600; color:var(--warm); margin-bottom:4px; }
+    .disclaimer-card p { font-size:0.78rem; color:var(--mid); line-height:1.55; font-weight:300; }
+
+    footer { background:var(--charcoal); padding:36px 56px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .foot-logo { display:flex; align-items:center; gap:8px; text-decoration:none; }
+    .foot-logo img { height:24px; filter:brightness(1); }
+    .foot-logo span { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; color:#fff; }
+    .foot-copy { color:rgba(255,255,255,0.25); font-size:0.75rem; }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    @media (max-width:768px) {
+      nav { padding:0 20px; }
+      .nav-links { display:none; }
+      .result-body { padding:36px 24px 28px; }
+      .result-divider { margin:24px; }
+      .metrics { padding:0 24px 24px; }
+      .confidence { padding:0 24px 28px; }
+      .result-actions { padding:20px 24px 28px; }
+      footer { padding:28px 20px; flex-direction:column; text-align:center; }
+    }
+  </style>
 </head>
 <body>
-<div style="padding:30px; margin-top:50px; border-radius:10px; display:flex; flex-direction:column; justify-items:center; align-items:center; background-color:#FCF6F5; color:black; max-width:800px">
-    <h1 style="color:#990011; border-radius:10px; padding:10px;font-family:Helvetica,sans-serif;">Model Prediction</h1>
-    <p style="font-family:Helvetica,sans-serif; font-size:20px">The predicted likelihood of disease is:<span style="background-color:#990011; color:white; padding:5px;border-radius:5px">{{ prediction }}</span></p>
-    <a style="align-items:center;" href="/"><button style="background-color:#990011;color:white;border-radius:10px;padding:5px;">Home</button></a>
-</div>
+<nav>
+  <a href="index2.html" class="nav-logo">
+    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+    <div>
+      <div class="nav-logo-name">PulsePrism</div>
+      <div class="nav-logo-sub">Cardiac Wellness</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index2.html">Home</a></li>
+    <li><a href="model2.html">Assessment</a></li>
+    <li><a href="about2.html">Our Approach</a></li>
+    <li><a href="model2.html" class="nav-cta">Run Again</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="result-wrap">
+    <div class="result-card">
+      <div class="result-band"></div>
+      <div class="result-body">
+        <div class="result-ornament low-risk">💚</div>
+        <div class="result-eyebrow">Your Cardiac Risk Assessment</div>
+        <div class="result-headline low-risk">{{ prediction }}</div>
+        <p class="result-sub">This result is derived from your 13 clinical indicators, processed through a Logistic Regression model trained on the UCI Cleveland Heart Disease dataset — 30 years of validated cardiovascular research.</p>
+      </div>
+
+      <div class="result-divider"></div>
+
+      <div class="metrics">
+        <div class="metric-tile"><div class="metric-num">87.1%</div><div class="metric-lbl">Accuracy</div></div>
+        <div class="metric-tile"><div class="metric-num">0.89</div><div class="metric-lbl">F1 Score</div></div>
+        <div class="metric-tile"><div class="metric-num">303</div><div class="metric-lbl">Records</div></div>
+      </div>
+
+      <div class="confidence">
+        <div class="conf-title">Model validation indicators</div>
+        <div class="conf-row">
+          <span class="conf-label">Overall Accuracy</span>
+          <div class="conf-track"><div class="conf-fill" style="width:87%"></div></div>
+          <span class="conf-val">87.1%</span>
+        </div>
+        <div class="conf-row">
+          <span class="conf-label">F1 Score</span>
+          <div class="conf-track"><div class="conf-fill" style="width:89%;background:var(--blush)"></div></div>
+          <span class="conf-val">0.89</span>
+        </div>
+        <div class="conf-row">
+          <span class="conf-label">Validation Method</span>
+          <div class="conf-track"><div class="conf-fill" style="width:94%;background:var(--sage)"></div></div>
+          <span class="conf-val">K-Fold</span>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <a href="model2.html" class="btn-filled">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Run Another Assessment
+        </a>
+        <a href="index2.html" class="btn-outline">← Back to Home</a>
+      </div>
+    </div>
+
+    <div class="disclaimer-card">
+      <div class="disc-ico">⚠️</div>
+      <div>
+        <h4>Medical Disclaimer</h4>
+        <p>PulsePrism is a machine learning screening tool, not a diagnostic instrument. This result does not constitute medical advice. If you have any concerns about your heart health, please consult a qualified physician or cardiologist immediately.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a href="index2.html" class="foot-logo">
+    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+    <span>PulsePrism</span>
+  </a>
+  <div class="foot-copy">© 2025 PulsePrism · Built by Nikhil Palande</div>
+</footer>
 </body>
 </html>

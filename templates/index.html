@@ -1,59 +1,678 @@
-<html xmlns:color="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Heart Disease Prediction Model</title>
-    <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulsePrism — Cardiac Wellness Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body{
-        margin: 0;
-        padding:0;
-        display: flex;
-        flex-direction:column;
-        align-items: center;
-        justify-content:center;
-        background-color:white;
-        font-family: Helvetica,sans-serif;
-        color:black;
-        }
+    :root {
+      --cream:    #FAF7F2;
+      --cream2:   #F3EDE3;
+      --cream3:   #EDE4D6;
+      --forest:   #1D4731;
+      --forest2:  #2A5C40;
+      --forest3:  #3A7A57;
+      --blush:    #E8917A;
+      --blush2:   #D4755E;
+      --sage:     #7BA592;
+      --sage2:    #A8C5B8;
+      --warm:     #C4965A;
+      --charcoal: #2C2C2C;
+      --mid:      #6B6B6B;
+      --light:    #9A9A9A;
+      --border:   rgba(45,71,49,0.1);
+      --border2:  rgba(45,71,49,0.06);
+    }
 
-        h1{
-        margin: 0;
-        padding:0;
-        font-family: Helvetica,sans-serif;
-        background-color:#990011;
-        text-align: center;
-        color: white;
-        border-radius: 15px;}
+    html { scroll-behavior: smooth; }
 
-    </style>
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ── ORGANIC BACKGROUND SHAPES ── */
+    .bg-blob {
+      position: fixed; pointer-events: none; z-index: 0;
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+    }
+    .bg-blob-1 {
+      width: 700px; height: 700px;
+      top: -200px; right: -200px;
+      background: radial-gradient(circle, rgba(123,165,146,0.12), transparent 70%);
+      animation: blobFloat 12s ease-in-out infinite;
+    }
+    .bg-blob-2 {
+      width: 500px; height: 500px;
+      bottom: -100px; left: -150px;
+      background: radial-gradient(circle, rgba(196,150,90,0.08), transparent 70%);
+      animation: blobFloat 15s ease-in-out infinite reverse;
+    }
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0,0) rotate(0deg); }
+      33% { transform: translate(20px,-15px) rotate(5deg); }
+      66% { transform: translate(-10px,20px) rotate(-3deg); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px; height: 76px;
+      background: rgba(250,247,242,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo img { height: 29px; width: auto; }
+    .nav-logo-text {
+      display: flex; flex-direction: column; line-height: 1;
+    }
+    .nav-logo-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; font-size: 1.2rem;
+      color: var(--forest);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo-sub {
+      font-size: 0.62rem; color: var(--sage);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      font-weight: 500; margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--mid); text-decoration: none;
+      font-size: 0.875rem; font-weight: 400;
+      letter-spacing: 0.01em;
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 0; right: 100%;
+      height: 1px; background: var(--forest3);
+      transition: right 0.3s ease;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { right: 0; }
+    .nav-links a:hover, .nav-links a.active { color: var(--forest); }
+
+    .nav-cta {
+      background: var(--forest) !important;
+      color: var(--cream) !important;
+      padding: 10px 24px; border-radius: 100px;
+      font-weight: 500 !important;
+      transition: background 0.25s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--forest2) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 100px 56px 80px;
+      gap: 80px;
+    }
+
+    .hero-left { max-width: 560px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--blush2); margin-bottom: 28px;
+      opacity: 0; animation: fadeIn 0.7s 0.1s ease forwards;
+    }
+    .hero-eyebrow span {
+      width: 28px; height: 1px; background: var(--blush2); display: inline-block;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 4.5vw, 4.4rem);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--forest);
+      opacity: 0; animation: fadeIn 0.7s 0.2s ease forwards;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--blush);
+    }
+
+    .hero-desc {
+      margin-top: 28px;
+      font-size: 1.05rem; line-height: 1.75;
+      color: var(--mid); font-weight: 300;
+      max-width: 460px;
+      opacity: 0; animation: fadeIn 0.7s 0.3s ease forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; margin-top: 40px;
+      flex-wrap: wrap;
+      opacity: 0; animation: fadeIn 0.7s 0.4s ease forwards;
+    }
+
+    .btn-filled {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--forest); color: var(--cream);
+      padding: 15px 32px; border-radius: 100px;
+      font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; border: none; cursor: pointer;
+      font-family: 'Instrument Sans', sans-serif;
+      transition: background 0.25s, transform 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .btn-filled:hover { background: var(--forest2); transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--forest);
+      padding: 15px 32px; border-radius: 100px;
+      font-size: 0.95rem; font-weight: 400;
+      text-decoration: none;
+      border: 1.5px solid var(--forest);
+      transition: background 0.25s, color 0.25s;
+      font-family: 'Instrument Sans', sans-serif;
+      letter-spacing: 0.01em;
+    }
+    .btn-outline:hover { background: var(--forest); color: var(--cream); }
+
+    /* Hero stats row */
+    .hero-stats {
+      display: flex; gap: 36px; margin-top: 48px;
+      padding-top: 40px; border-top: 1px solid var(--border);
+      opacity: 0; animation: fadeIn 0.7s 0.5s ease forwards;
+    }
+    .hstat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700; color: var(--forest);
+      line-height: 1;
+    }
+    .hstat-lbl { font-size: 0.75rem; color: var(--light); margin-top: 4px; letter-spacing: 0.03em; }
+
+    /* Hero right — visual */
+    .hero-right {
+      position: relative;
+      opacity: 0; animation: fadeIn 0.8s 0.3s ease forwards;
+    }
+
+    .hero-visual {
+      background: var(--cream2);
+      border: 1px solid var(--border);
+      border-radius: 32px; padding: 40px;
+      position: relative; overflow: hidden;
+    }
+    .hero-visual::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--forest), var(--sage), var(--blush));
+    }
+
+    .vis-label {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--light); margin-bottom: 24px; font-weight: 500;
+    }
+
+    .risk-meter {
+      text-align: center; padding: 32px 20px;
+      background: var(--cream); border-radius: 20px;
+      margin-bottom: 20px; border: 1px solid var(--border2);
+    }
+    .risk-circle {
+      width: 96px; height: 96px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(29,71,49,0.08), rgba(123,165,146,0.15));
+      border: 3px solid var(--sage2);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .risk-circle .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--forest); line-height: 1;
+    }
+    .risk-circle .unit { font-size: 0.65rem; color: var(--sage); margin-top: 2px; }
+    .risk-title { font-size: 0.8rem; font-weight: 600; color: var(--forest); letter-spacing: 0.03em; }
+    .risk-sub { font-size: 0.72rem; color: var(--light); margin-top: 4px; }
+
+    .factor-list { list-style: none; }
+    .factor {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--border2);
+      font-size: 0.8rem;
+    }
+    .factor:last-child { border-bottom: none; }
+    .factor-name { color: var(--mid); }
+    .factor-bar { flex: 1; margin: 0 14px; height: 4px; background: var(--cream3); border-radius: 2px; overflow: hidden; }
+    .factor-fill { height: 100%; border-radius: 2px; background: var(--forest3); }
+    .factor-val { color: var(--charcoal); font-weight: 500; font-size: 0.78rem; min-width: 44px; text-align: right; }
+
+    .vis-tag {
+      position: fixed; bottom: -16px; right: 24px;
+      background: var(--blush); color: #fff;
+      padding: 8px 18px; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 500;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { position: relative; z-index: 1; }
+
+    .section-eyebrow {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--blush2); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--blush2); display: inline-block; }
+
+    h2.section-h { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; color: var(--forest); }
+    .section-sub { color: var(--mid); font-size: 1rem; line-height: 1.75; font-weight: 300; margin-top: 14px; }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: var(--cream2); padding: 120px 56px; }
+    .how-inner { max-width: 1100px; margin: 0 auto; }
+    .how-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 72px; }
+    .how-top-right { max-width: 380px; }
+
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+
+    .step-card {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: 24px; padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .step-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(29,71,49,0.08); }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 900; line-height: 1;
+      color: rgba(29,71,49,0.06); position: absolute;
+      top: 16px; right: 24px; letter-spacing: -0.03em;
+    }
+    .step-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(29,71,49,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 20px;
+    }
+    .step-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--forest); margin-bottom: 10px; }
+    .step-card p { font-size: 0.875rem; color: var(--mid); line-height: 1.65; font-weight: 300; }
+
+    /* ── FEATURES ── */
+    .features { padding: 120px 56px; }
+    .features-inner { max-width: 1100px; margin: 0 auto; }
+    .features-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 72px; }
+    .features-left { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .feat {
+      background: var(--cream2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 24px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .feat:hover { border-color: var(--sage2); background: rgba(168,197,184,0.06); }
+    .feat-ico { font-size: 1.5rem; margin-bottom: 14px; }
+    .feat h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--forest); margin-bottom: 8px; }
+    .feat p { font-size: 0.82rem; color: var(--mid); line-height: 1.6; font-weight: 300; }
+
+    .features-right {}
+    .features-right blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 400; font-style: italic;
+      line-height: 1.5; color: var(--forest);
+      padding-left: 28px;
+      border-left: 3px solid var(--blush);
+      margin-bottom: 40px;
+    }
+    .features-right p { font-size: 0.95rem; color: var(--mid); line-height: 1.75; font-weight: 300; margin-bottom: 16px; }
+
+    .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .tech-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--cream2); border: 1px solid var(--border);
+      border-radius: 100px; padding: 7px 16px;
+      font-size: 0.78rem; font-weight: 500; color: var(--forest);
+      transition: background 0.2s;
+    }
+    .tech-badge:hover { background: var(--cream3); }
+    .tech-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); }
+
+    /* ── FULL WIDTH BANNER ── */
+    .banner {
+      background: var(--forest); padding: 80px 56px;
+      position: relative; overflow: hidden;
+    }
+    .banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .banner-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 48px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .banner-left h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 700; color: var(--cream); max-width: 480px; line-height: 1.25; }
+    .banner-left p { color: rgba(250,247,242,0.6); margin-top: 12px; font-size: 0.95rem; font-weight: 300; }
+    .btn-cream {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--cream); color: var(--forest);
+      padding: 15px 36px; border-radius: 100px;
+      font-size: 0.95rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+      transition: background 0.25s, transform 0.2s;
+      font-family: 'Instrument Sans', sans-serif;
+    }
+    .btn-cream:hover { background: var(--cream2); transform: translateY(-1px); }
+
+    /* ── CTA ── */
+    .cta-section { padding: 120px 56px; }
+    .cta-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 700; color: var(--forest); margin-bottom: 16px; }
+    .cta-inner p { color: var(--mid); font-size: 1rem; line-height: 1.7; margin-bottom: 40px; font-weight: 300; }
+    .cta-disclaimer { font-size: 0.75rem; color: var(--light); margin-top: 20px; line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal); padding: 56px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px; align-items: start;
+    }
+    .foot-brand {}
+    .foot-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 14px; }
+    .foot-logo img { height: 28px; filter: brightness(1); }
+    .foot-logo span { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: #fff; }
+    .foot-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.4); line-height: 1.6; font-weight: 300; }
+    .foot-nav-title { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+    .foot-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .foot-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .foot-links a:hover { color: #fff; }
+    .foot-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); margin-top: 4px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 0 28px; }
+      .hero { grid-template-columns: 1fr; padding: 100px 28px 60px; gap: 48px; min-height: auto; }
+      .hero-left { max-width: 100%; }
+      .how { padding: 80px 28px; }
+      .how-top { flex-direction: column; gap: 20px; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .features { padding: 80px 28px; }
+      .features-layout { grid-template-columns: 1fr; gap: 48px; }
+      .banner { padding: 60px 28px; }
+      .cta-section { padding: 80px 28px; }
+      footer { grid-template-columns: 1fr 1fr; padding: 40px 28px; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 90px 20px 48px; }
+      .hero-stats { gap: 24px; }
+      .how { padding: 64px 20px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .features { padding: 64px 20px; }
+      .features-left { grid-template-columns: 1fr; }
+      .banner { padding: 48px 20px; }
+      .banner-inner { flex-direction: column; }
+      .cta-section { padding: 64px 20px; }
+      footer { grid-template-columns: 1fr; padding: 40px 20px; gap: 32px; }
+      .hero-right { display: none; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div style=" font-size: 20px; background-color: #FCF6F5; color: black; border-radius:20px; margin: 20px; box_shadow:0 8px 4px black; padding: 20px 120px 50px;">
-    <h1>Heart Disease Prediction Model</h1>
-    <h3>What is heart disease?</h3>
-Heart disease is a variety of issues that can affect your heart. When people think about heart disease, they often think of the most common type — <span style="border: 2px solid #990011">coronary artery disease (CAD)</span> and the heart attacks it can cause. But you can have trouble with different parts of your heart, like your heart muscle, valves or electrical system.
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
 
-When your heart isn’t working well, it has trouble sending enough blood, oxygen and nutrients to your body. In a way, your heart delivers the fuel that keeps your body’s systems running. If there’s a problem with delivering that fuel, it affects everything your body’s systems do.
-
-Lifestyle changes and medications can keep your heart healthy and lower your chances of getting heart disease.
-
-    <h3 style="text-align: center;">What are the types of heart disease?</h3>
-    <ol style="color: white; border: 1px solid #990011 ; border-radius: 15px; padding: 10px 120px 20px;margin-top: 10px;background-color: #990011;">
-        <h4>Heart disease types include:</h4>
-        <li>Narrowing of your heart’s blood vessels because of fatty deposits (coronary artery disease).</li>
-        <li>Abnormal heart rhythms (arrhythmias).</li>
-        <li>Heart valve diseases.</li>
-        <li>Abnormal heart muscle (cardiomyopathy).</li>
-        <li>Heart squeezing and relaxation difficulties (heart failure).</li>
-        <li>Heart issues you have at birth (congenital heart disease).</li>
-        <li>Issues with the fluid-filled sac surrounding your heart (pericardium).</li></ol>
-    <div style="display: flex;justify-content: center;align-items: center;">
-        <a href="/model">
-            <button style="font-family: Helvetica,sans-serif; color:white; background-color:#990011;padding:1.25em;border-radius:10px">Try Model</button>
-        </a>
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">PulsePrism</span>
+      <span class="nav-logo-sub">Cardiac Wellness</span>
     </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="model.html">Assessment</a></li>
+    <li><a href="about.html">Our Approach</a></li>
+    <li><a href="model.html" class="nav-cta">Begin Assessment</a></li>
+  </ul>
+</nav>
 
-</div>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span></span> ML-powered cardiac screening</div>
+    <h1>Your heart, seen<br>from <em>every angle</em></h1>
+    <p class="hero-desc">PulsePrism translates 13 clinical indicators into a clear, explainable cardiac risk assessment — trained on 30 years of validated research data, delivered in under 200ms.</p>
+    <div class="hero-actions">
+      <a href="model.html" class="btn-filled">
+        Begin Free Assessment
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="about.html" class="btn-outline">Learn more</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hstat-num">87.1%</div>
+        <div class="hstat-lbl">Model accuracy</div>
+      </div>
+      <div>
+        <div class="hstat-num">0.89</div>
+        <div class="hstat-lbl">F1 score</div>
+      </div>
+      <div>
+        <div class="hstat-num">303</div>
+        <div class="hstat-lbl">Clinical records</div>
+      </div>
+      <div>
+        <div class="hstat-num">&lt;200ms</div>
+        <div class="hstat-lbl">Response time</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="vis-label">Sample assessment output</div>
+      <div class="risk-meter">
+        <div class="risk-circle">
+          <span class="num">Low</span>
+          <span class="unit">Risk</span>
+        </div>
+        <div class="risk-title">Cardiac Risk Assessment</div>
+        <div class="risk-sub">Based on 13 clinical indicators</div>
+      </div>
+      <ul class="factor-list">
+        <li class="factor">
+          <span class="factor-name">Cholesterol</span>
+          <div class="factor-bar"><div class="factor-fill" style="width:65%"></div></div>
+          <span class="factor-val">245 mg/dL</span>
+        </li>
+        <li class="factor">
+          <span class="factor-name">Max Heart Rate</span>
+          <div class="factor-bar"><div class="factor-fill" style="width:80%"></div></div>
+          <span class="factor-val">152 bpm</span>
+        </li>
+        <li class="factor">
+          <span class="factor-name">Resting BP</span>
+          <div class="factor-bar"><div class="factor-fill" style="width:50%"></div></div>
+          <span class="factor-val">130 mmHg</span>
+        </li>
+        <li class="factor">
+          <span class="factor-name">Age</span>
+          <div class="factor-bar"><div class="factor-fill" style="width:45%"></div></div>
+          <span class="factor-val">54 yrs</span>
+        </li>
+      </ul>
+      <div class="vis-tag">Logistic Regression · 87.1% accuracy</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how">
+  <div class="how-inner">
+    <div class="how-top">
+      <div>
+        <div class="section-eyebrow">How it works</div>
+        <h2 class="section-h">Three steps to<br>cardiac clarity</h2>
+      </div>
+      <div class="how-top-right">
+        <p class="section-sub">Every step is transparent. No black boxes, no unexplained outputs. You deserve to understand exactly what's happening with your health data.</p>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <span class="step-num">01</span>
+        <div class="step-icon">📋</div>
+        <h3>Enter your clinical values</h3>
+        <p>Provide 13 standard clinical indicators from your health report — values any doctor's visit or blood test would surface. No special equipment needed.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:0.1s">
+        <span class="step-num">02</span>
+        <div class="step-icon">🧮</div>
+        <h3>The model analyses your data</h3>
+        <p>A Logistic Regression model fine-tuned with RandomizedSearchCV processes your inputs through a validated preprocessing pipeline in real time.</p>
+      </div>
+      <div class="step-card reveal" style="transition-delay:0.2s">
+        <span class="step-num">03</span>
+        <div class="step-icon">💡</div>
+        <h3>Receive a clear, explained result</h3>
+        <p>Your risk assessment arrives with the feature coefficients that drove it — no opaque guesswork. You see exactly which clinical factors mattered most.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="features">
+  <div class="features-inner">
+    <div class="section-eyebrow">Why PulsePrism</div>
+    <h2 class="section-h">Built on principles,<br>not just performance</h2>
+    <div class="features-layout">
+      <div class="features-left">
+        <div class="feat reveal">
+          <div class="feat-ico">🔬</div>
+          <h3>Validated Research Data</h3>
+          <p>Built on the UCI Cleveland dataset — peer-reviewed and used in cardiovascular research for 30+ years.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:0.1s">
+          <div class="feat-ico">💬</div>
+          <h3>Explainable Outputs</h3>
+          <p>Logistic Regression was chosen for its interpretability. You see which factors drive your result — not just the answer.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:0.15s">
+          <div class="feat-ico">🐳</div>
+          <h3>Production Deployed</h3>
+          <p>Docker containerised, GitHub Actions CI/CD, hosted on Render. Every commit tested and deployed automatically.</p>
+        </div>
+        <div class="feat reveal" style="transition-delay:0.2s">
+          <div class="feat-ico">🔒</div>
+          <h3>No Data Stored</h3>
+          <p>Your values are processed in memory and discarded immediately after prediction. Nothing is logged or stored.</p>
+        </div>
+      </div>
+      <div class="features-right reveal" style="transition-delay:0.1s">
+        <blockquote>"The goal was never to replace a cardiologist. It was to give people a reason to go see one before it's too late."</blockquote>
+        <p>Most ML health tools are black boxes that produce a number with no explanation. PulsePrism is different. It was built with explainability as a first principle — because in healthcare, understanding the reasoning matters as much as the result.</p>
+        <p>Trained with recall-optimised tuning, the model is designed to catch real risks rather than minimise false alarms — the right trade-off for a screening tool.</p>
+        <div class="badge-row">
+          <div class="tech-badge"><span class="dot"></span>Python 3.11</div>
+          <div class="tech-badge"><span class="dot"></span>scikit-learn</div>
+          <div class="tech-badge"><span class="dot"></span>Flask API</div>
+          <div class="tech-badge"><span class="dot"></span>Docker</div>
+          <div class="tech-badge"><span class="dot"></span>GitHub Actions</div>
+          <div class="tech-badge"><span class="dot"></span>Render</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BANNER ── -->
+<section class="banner">
+  <div class="banner-inner">
+    <div class="banner-left">
+      <h2>Early awareness is the most powerful cardiac intervention.</h2>
+      <p>Most heart disease is preventable when caught early. PulsePrism puts that insight in your hands.</p>
+    </div>
+    <a href="model.html" class="btn-cream">
+      Start Your Assessment
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:20px;">Free to use · No account required</div>
+    <h2>Know your cardiac risk in 60 seconds</h2>
+    <p>Enter your clinical values and receive a data-driven preliminary assessment backed by 30 years of cardiovascular research.</p>
+    <a href="model.html" class="btn-filled" style="font-size:1rem;padding:16px 40px;">Begin Free Assessment</a>
+    <p class="cta-disclaimer">⚠️ PulsePrism is a screening tool, not a medical diagnosis. Results are for informational purposes only. Always consult a qualified physician before making health decisions.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="foot-brand">
+    <a href="index.html" class="foot-logo">
+      <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+      <span>PulsePrism</span>
+    </a>
+    <p class="foot-tagline">Multi-Angle ML Assessment of Cardiac Wellness. Built with care, not just code.</p>
+    <p class="foot-copy" style="margin-top:20px;">© 2025 PulsePrism · Nikhil Palande</p>
+  </div>
+  <div>
+    <div class="foot-nav-title">Navigate</div>
+    <ul class="foot-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="model.html">Assessment Tool</a></li>
+      <li><a href="about.html">Our Approach</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="foot-nav-title">Connect</div>
+    <ul class="foot-links">
+      <li><a href="https://linkedin.com/in/nikhil-palande" target="_blank">LinkedIn</a></li>
+      <li><a href="https://github.com" target="_blank">GitHub</a></li>
+    </ul>
+    <p class="foot-copy" style="margin-top:20px;">Salesforce Certified AI Specialist</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

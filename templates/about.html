@@ -1,48 +1,389 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>About</title>
-    <style>
-        h1{
-        font-family:Helvetica,sans-serif;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulsePrism — Our Approach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Instrument+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:#FAF7F2; --cream2:#F3EDE3; --cream3:#EDE4D6;
+      --forest:#1D4731; --forest2:#2A5C40; --forest3:#3A7A57;
+      --blush:#E8917A; --blush2:#D4755E;
+      --sage:#7BA592; --sage2:#A8C5B8;
+      --warm:#C4965A; --charcoal:#2C2C2C;
+      --mid:#6B6B6B; --light:#9A9A9A;
+      --border:rgba(45,71,49,0.1); --border2:rgba(45,71,49,0.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Instrument Sans',sans-serif; background:var(--cream); color:var(--charcoal); }
 
-        text-align:center;
-        background-color:#990011;
-        padding:5px;
-        color:white;
-        border-radius:5px;
-        }
-        div{
-        font-family:Helvetica,sans-serif;
-        font-size:15px;
-        justify-content:center;
-        align-items:center;
-        background-color:#FCF6F5;
-        margin:20px;
-        border-radius:20px;
-        }
+    .bg-blob { position:fixed; pointer-events:none; z-index:0; border-radius:60% 40% 70% 30%/50% 60% 40% 50%; }
+    .bg-blob-1 { width:600px; height:600px; top:-150px; right:-150px; background:radial-gradient(circle,rgba(123,165,146,0.1),transparent 70%); animation:blobFloat 14s ease-in-out infinite; }
+    @keyframes blobFloat { 0%,100%{transform:translate(0,0)rotate(0deg)} 33%{transform:translate(15px,-10px)rotate(4deg)} 66%{transform:translate(-8px,15px)rotate(-2deg)} }
 
-    </style>
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 56px; height:76px;
+      background:rgba(250,247,242,0.95); backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .nav-logo img { height:29px; }
+    .nav-logo-name { font-family:'Playfair Display',serif; font-weight:700; font-size:1.2rem; color:var(--forest); }
+    .nav-logo-sub { font-size:0.62rem; color:var(--sage); letter-spacing:0.06em; text-transform:uppercase; font-weight:500; margin-top:1px; }
+    .nav-links { display:flex; align-items:center; gap:36px; list-style:none; }
+    .nav-links a { color:var(--mid); text-decoration:none; font-size:0.875rem; transition:color 0.2s; position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; right:100%; height:1px; background:var(--forest3); transition:right 0.3s; }
+    .nav-links a:hover::after,.nav-links a.active::after { right:0; }
+    .nav-links a:hover,.nav-links a.active { color:var(--forest); }
+    .nav-cta { background:var(--forest) !important; color:var(--cream) !important; padding:10px 24px; border-radius:100px; font-weight:500 !important; }
+    .nav-cta::after { display:none !important; }
+
+    /* PAGE HERO */
+    .about-hero {
+      position:relative; z-index:1;
+      background:var(--forest);
+      padding:140px 56px 100px;
+      overflow:hidden;
+    }
+    .about-hero::before {
+      content:''; position:absolute; inset:0;
+      background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .about-hero-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; position:relative; z-index:1; }
+    .about-hero-left {}
+    .hero-tag { font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--sage2); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+    .hero-tag::before { content:''; width:24px; height:1px; background:var(--sage2); }
+    .about-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,4vw,3.4rem); font-weight:700; color:var(--cream); line-height:1.15; letter-spacing:-0.02em; }
+    .about-hero h1 em { font-style:italic; color:var(--blush); }
+    .about-hero-right p { color:rgba(250,247,242,0.65); font-size:1rem; line-height:1.75; font-weight:300; margin-bottom:16px; }
+
+    /* CONTENT */
+    .content { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:0 56px 100px; }
+
+    /* Section layout */
+    .section-block { padding:80px 0; border-bottom:1px solid var(--border); }
+    .section-block:last-child { border-bottom:none; }
+    .section-inner { display:grid; grid-template-columns:240px 1fr; gap:64px; align-items:start; }
+
+    .section-aside {}
+    .aside-label { font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--blush2); margin-bottom:8px; }
+    .aside-num { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; color:rgba(29,71,49,0.06); line-height:1; letter-spacing:-0.03em; }
+
+    .section-body h2 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--forest); margin-bottom:18px; line-height:1.25; }
+    .section-body p { color:var(--mid); font-size:0.95rem; line-height:1.75; font-weight:300; margin-bottom:14px; }
+    .section-body p:last-child { margin-bottom:0; }
+
+    /* Model table */
+    .model-table { border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-top:20px; }
+    .model-row { display:flex; align-items:center; padding:14px 20px; border-bottom:1px solid var(--border2); font-size:0.88rem; }
+    .model-row:last-child { border-bottom:none; }
+    .model-row.hdr { background:var(--cream2); font-size:0.68rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--light); }
+    .col-model { flex:1.4; font-weight:500; color:var(--charcoal); }
+    .col-acc { flex:1; color:var(--mid); }
+    .col-acc.win { color:var(--forest); font-weight:600; font-family:'Playfair Display',serif; }
+    .col-tag { font-size:0.7rem; font-weight:600; padding:4px 12px; border-radius:100px; }
+    .col-tag.chosen { background:rgba(29,71,49,0.08); color:var(--forest); border:1px solid rgba(29,71,49,0.2); }
+    .col-tag.skipped { background:var(--cream2); color:var(--light); border:1px solid var(--border2); }
+
+    /* Tech stack */
+    .tech-list { list-style:none; margin-top:16px; }
+    .tech-item { display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--border2); }
+    .tech-item:last-child { border-bottom:none; }
+    .tech-dot { width:8px; height:8px; border-radius:50%; background:var(--sage); flex-shrink:0; margin-top:6px; }
+    .tech-item strong { display:block; font-size:0.9rem; font-weight:500; color:var(--forest); margin-bottom:3px; }
+    .tech-item span { font-size:0.8rem; color:var(--mid); line-height:1.5; font-weight:300; }
+
+    /* Roadmap */
+    .roadmap { margin-top:16px; }
+    .road-item { display:flex; gap:16px; padding:18px 0; border-bottom:1px solid var(--border2); }
+    .road-item:last-child { border-bottom:none; }
+    .road-ico { width:36px; height:36px; border-radius:10px; background:rgba(29,71,49,0.07); display:flex; align-items:center; justify-content:center; font-size:0.95rem; flex-shrink:0; }
+    .road-text h4 { font-size:0.9rem; font-weight:600; color:var(--forest); margin-bottom:4px; }
+    .road-text p { font-size:0.8rem; color:var(--mid); line-height:1.5; font-weight:300; }
+
+    /* Creator */
+    .creator-card {
+      background:var(--cream2); border:1px solid var(--border);
+      border-radius:24px; padding:36px; margin-top:16px;
+      display:flex; gap:24px; align-items:flex-start;
+    }
+    .avatar {
+      width:60px; height:60px; border-radius:50%;
+      background:linear-gradient(135deg, var(--forest), var(--sage));
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700;
+      color:#fff; flex-shrink:0;
+    }
+    .creator-card h3 { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--forest); margin-bottom:4px; }
+    .creator-card .role { font-size:0.78rem; color:var(--sage); font-weight:500; letter-spacing:0.03em; margin-bottom:14px; }
+    .creator-card p { font-size:0.875rem; color:var(--mid); line-height:1.65; font-weight:300; margin-bottom:14px; }
+    .creator-card p:last-child { margin-bottom:0; }
+    .creator-link {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 18px; border-radius:100px; font-size:0.8rem; font-weight:500;
+      text-decoration:none; background:rgba(0,119,181,0.08); border:1px solid rgba(0,119,181,0.2); color:#1d6fa6;
+      transition:background 0.2s;
+    }
+    .creator-link:hover { background:rgba(0,119,181,0.14); }
+
+    /* CTA */
+    .about-cta { background:var(--cream2); padding:80px 56px; text-align:center; border-top:1px solid var(--border); position:relative; z-index:1; }
+    .about-cta h2 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:700; color:var(--forest); margin-bottom:12px; }
+    .about-cta p { color:var(--mid); font-size:0.95rem; margin-bottom:32px; font-weight:300; }
+    .btn-filled {
+      display:inline-flex; align-items:center; gap:10px;
+      background:var(--forest); color:var(--cream);
+      padding:14px 36px; border-radius:100px; font-size:0.95rem; font-weight:500;
+      text-decoration:none; font-family:'Instrument Sans',sans-serif;
+      transition:background 0.25s,transform 0.2s;
+    }
+    .btn-filled:hover { background:var(--forest2); transform:translateY(-1px); }
+
+    footer { background:var(--charcoal); padding:40px 56px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; position:relative; z-index:1; }
+    .foot-logo { display:flex; align-items:center; gap:8px; text-decoration:none; }
+    .foot-logo img { height:24px; filter:brightness(1); }
+    .foot-logo span { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; color:#fff; }
+    .foot-links { display:flex; gap:24px; }
+    .foot-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.82rem; transition:color 0.2s; }
+    .foot-links a:hover { color:#fff; }
+    .foot-copy { color:rgba(255,255,255,0.25); font-size:0.75rem; }
+
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.7s ease,transform 0.7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:900px) {
+      nav { padding:0 24px; }
+      .about-hero { padding:110px 24px 80px; }
+      .about-hero-inner { grid-template-columns:1fr; gap:32px; }
+      .content { padding:0 24px 80px; }
+      .section-inner { grid-template-columns:1fr; gap:28px; }
+      .aside-num { display:none; }
+      .about-cta { padding:60px 24px; }
+      footer { padding:32px 24px; }
+    }
+    @media (max-width:640px) {
+      nav { padding:0 20px; }
+      .nav-links { display:none; }
+      .creator-card { flex-direction:column; gap:16px; }
+      footer { flex-direction:column; text-align:center; }
+      .foot-links { justify-content:center; }
+    }
+  </style>
 </head>
-<body style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-<div style="width:100%; max-width:800px;padding:20px; font-size:20px">
-    <h1>About This Project <nav style="display:block; font-size:10px;"><a href="/" style="background-color:white;border-radius:5px; padding:2px">Home</a></nav></h1>
+<body>
 
-    <p>This web applications predicts whether a person has heart disease or not based on medical data provided by the user</p>
-    <h3>Project Purpose</h3>
-    <p>This project is built to help individuals and medical professionals to identify the likelihood of heart disease in a patient. So by using medical data of patient the ML model can generate predictions and can be helpful in early diagnosis of <span style="border:2px solid #990011">Heart Disease.</span> and also helping in planning treatment.</p>
-    <h3>Dataset</h3>
-    <p>The dataset used to train the model is taken from <a href="https://archive.ics.uci.edu/dataset/45/heart+disease">UCI Machine Learning Repository</a> and has 14 features like age, chest pain type, heartrate, serum cholesterol and may more.</p>
-    <h3>Model Details</h3>
-    <p>The Prediction model that is used is a machine learning regression model built using python. Many algorithms were considered and evaluated like K-Neighbours algorithm, Randoom forest classifier and Logistic regression; In which the <span style="border:2px solid #990011" >Logistic Regression</span> model turned out to be best model of them all. Then Logistic Regression model was fine-tuned using RandomisedSearchCV.</p>
-    <h3>Features and Technologies</h3>
-    <p><ul><li><span style="font-weight:bold">Python</span>: The programming language used for developing model and web application.</li>
-    <li><span style="font-weight:bold">Flask:</span> A micro web framework used to develop web application. </li>
-    <li><span style="font-weight:bold">HTML and CSS:</span>Markup and Styling language used to develop interface.</li>
-    <li><span style="font-weight:bold">Scikit-Learn:</span> ML library used to develop algorithm for prediction.</li></ul>
-    <h3>How the app works:</h3>
-    <p>The app allows users to input their information through form. Then the information is passed through the server to the model and the model; where the model processes the data and the model generates prediction.</p>
+<div class="bg-blob bg-blob-1"></div>
+
+<nav>
+  <a href="index2.html" class="nav-logo">
+    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+    <div>
+      <div class="nav-logo-name">PulsePrism</div>
+      <div class="nav-logo-sub">Cardiac Wellness</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index2.html">Home</a></li>
+    <li><a href="model2.html">Assessment</a></li>
+    <li><a href="about2.html" class="active">Our Approach</a></li>
+    <li><a href="model2.html" class="nav-cta">Begin Assessment</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="about-hero-inner">
+    <div class="about-hero-left">
+      <div class="hero-tag">Our approach</div>
+      <h1>Built on science,<br>driven by <em>empathy</em></h1>
+    </div>
+    <div class="about-hero-right">
+      <p>PulsePrism was built with a single principle: in healthcare, you deserve to understand the reasoning behind every result. No black boxes. No opaque outputs.</p>
+      <p>Every architectural decision — from model selection to deployment stack — was made with explainability, reliability, and user trust as first priorities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- Why -->
+  <div class="section-block reveal">
+    <div class="section-inner">
+      <div class="section-aside">
+        <div class="aside-label">Origin</div>
+        <div class="aside-num">01</div>
+      </div>
+      <div class="section-body">
+        <h2>Why PulsePrism exists</h2>
+        <p>Cardiovascular disease is the world's leading cause of death — yet most people don't get screened until symptoms become severe. Not because the data isn't available, but because the tools to interpret it are locked inside hospitals and specialist appointments.</p>
+        <p>PulsePrism started with a simple question: if a person already has their blood test and ECG results, why can't they get a meaningful preliminary risk signal right now, from their browser, for free?</p>
+        <p>The goal was never to replace a cardiologist. It was to give people a reason to go see one — before it's too late.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dataset -->
+  <div class="section-block reveal">
+    <div class="section-inner">
+      <div class="section-aside">
+        <div class="aside-label">Data</div>
+        <div class="aside-num">02</div>
+      </div>
+      <div class="section-body">
+        <h2>The dataset behind the model</h2>
+        <p>PulsePrism is trained on the UCI Cleveland Heart Disease dataset — 303 patient records, medically validated and used in peer-reviewed cardiovascular research for over three decades.</p>
+        <p>The preprocessing pipeline handles missing values with context-aware medians, applies robust feature scaling, and one-hot encodes categorical variables. The result is a clean, consistent input regardless of how values are entered.</p>
+        <p>The 13 clinical features span: age, sex, chest pain type, resting blood pressure, serum cholesterol, fasting blood sugar, resting ECG, maximum heart rate, exercise-induced angina, ST depression, ST slope, vessels coloured by fluoroscopy, and thalassemia type.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model -->
+  <div class="section-block reveal">
+    <div class="section-inner">
+      <div class="section-aside">
+        <div class="aside-label">Model</div>
+        <div class="aside-num">03</div>
+      </div>
+      <div class="section-body">
+        <h2>Why we chose Logistic Regression</h2>
+        <p>Three algorithms were benchmarked on the same preprocessed data. Logistic Regression won — not just on accuracy, but on the criterion that matters most in healthcare: explainability.</p>
+        <div class="model-table">
+          <div class="model-row hdr">
+            <span class="col-model">Algorithm</span>
+            <span class="col-acc">Accuracy</span>
+            <span class="col-acc">F1 Score</span>
+            <span style="flex:0.8">Status</span>
+          </div>
+          <div class="model-row">
+            <span class="col-model">Logistic Regression</span>
+            <span class="col-acc win">87.1%</span>
+            <span class="col-acc win">0.89</span>
+            <span class="col-tag chosen">✓ Selected</span>
+          </div>
+          <div class="model-row">
+            <span class="col-model">Random Forest</span>
+            <span class="col-acc">84.3%</span>
+            <span class="col-acc">0.85</span>
+            <span class="col-tag skipped">Not selected</span>
+          </div>
+          <div class="model-row">
+            <span class="col-model">K-Nearest Neighbors</span>
+            <span class="col-acc">81.6%</span>
+            <span class="col-acc">0.82</span>
+            <span class="col-tag skipped">Not selected</span>
+          </div>
+        </div>
+        <p style="margin-top:16px;">Random Forest achieved competitive accuracy but cannot explain which features drove a specific prediction. In a healthcare context, explainability is not optional — Logistic Regression's feature coefficients show exactly which clinical factors mattered most for each result.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div class="section-block reveal">
+    <div class="section-inner">
+      <div class="section-aside">
+        <div class="aside-label">Stack</div>
+        <div class="aside-num">04</div>
+      </div>
+      <div class="section-body">
+        <h2>Production-grade, end to end</h2>
+        <p>Every architectural decision was made with deployment reliability and real-world performance in mind — not just model accuracy.</p>
+        <ul class="tech-list">
+          <li class="tech-item"><div class="tech-dot" style="background:#3776AB"></div><div><strong>Python 3.11 + Flask</strong><span>REST API backend. Model inference via a scikit-learn preprocessing and prediction pipeline.</span></div></li>
+          <li class="tech-item"><div class="tech-dot" style="background:#F97316"></div><div><strong>scikit-learn</strong><span>Full preprocessing pipeline + Logistic Regression tuned with RandomizedSearchCV and k-fold cross-validation.</span></div></li>
+          <li class="tech-item"><div class="tech-dot" style="background:#2496ED"></div><div><strong>Docker</strong><span>Complete containerisation for consistent environment between development and production deployments.</span></div></li>
+          <li class="tech-item"><div class="tech-dot" style="background:#22C55E"></div><div><strong>GitHub Actions CI/CD</strong><span>Every commit triggers lint → test → build → auto-deploy to Render. Zero-downtime continuous delivery.</span></div></li>
+          <li class="tech-item"><div class="tech-dot" style="background:#7C3AED"></div><div><strong>Render</strong><span>Cloud hosting. Inference pipeline returns results in under 200ms under normal load.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="section-block reveal">
+    <div class="section-inner">
+      <div class="section-aside">
+        <div class="aside-label">Roadmap</div>
+        <div class="aside-num">05</div>
+      </div>
+      <div class="section-body">
+        <h2>What's coming next</h2>
+        <p>PulsePrism is actively developed. These features are in progress:</p>
+        <div class="roadmap">
+          <div class="road-item"><div class="road-ico">📊</div><div class="road-text"><h4>SHAP-based explainability</h4><p>Visual waterfall chart showing which features contributed most to your specific prediction.</p></div></div>
+          <div class="road-item"><div class="road-ico">🎯</div><div class="road-text"><h4>Confidence-based risk tiers</h4><p>Low / Moderate / High tiers with probability scores, replacing binary output with a richer gradient.</p></div></div>
+          <div class="road-item"><div class="road-ico">📄</div><div class="road-text"><h4>PDF report downloads</h4><p>Exportable assessment with your inputs, result, and feature importance — shareable with your physician.</p></div></div>
+          <div class="road-item"><div class="road-ico">🔄</div><div class="road-text"><h4>Automated retraining pipeline</h4><p>Model retraining as new validated data becomes available, with version tracking and rollback capability.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Creator -->
+  <div class="section-block reveal">
+    <div class="section-inner">
+      <div class="section-aside">
+        <div class="aside-label">Creator</div>
+        <div class="aside-num">06</div>
+      </div>
+      <div class="section-body">
+        <h2>Built by</h2>
+        <div class="creator-card">
+          <div class="avatar">NP</div>
+          <div>
+            <h3>Nikhil Palande</h3>
+            <div class="role">Python Developer · ML Engineer · Pune, India</div>
+            <p>MSc Computer Applications, Savitribai Phule Pune University (First Class Distinction, 8.53 CGPA). Salesforce Certified AI Specialist (Dec 2024). Building AI-powered tools that solve real problems.</p>
+            <p>PulsePrism was built to prove that a single developer with the right tools can take a research dataset, build a production ML pipeline, containerise it, wire up CI/CD, and ship a live product — end to end, independently.</p>
+            <a href="https://linkedin.com/in/nikhil-palande" target="_blank" class="creator-link">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              Connect on LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-</body>
+<!-- CTA -->
+<div class="about-cta">
+  <h2>Ready to check your cardiac risk?</h2>
+  <p>Free to use. No account needed. Takes 60 seconds.</p>
+  <a href="model2.html" class="btn-filled">
+    Begin Your Assessment
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</div>
 
+<footer>
+  <a href="index2.html" class="foot-logo">
+    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+    <span>PulsePrism</span>
+  </a>
+  <div class="foot-links">
+    <a href="index2.html">Home</a>
+    <a href="model2.html">Assessment</a>
+    <a href="about2.html">Our Approach</a>
+    <a href="https://linkedin.com/in/nikhil-palande" target="_blank">LinkedIn</a>
+  </div>
+  <div class="foot-copy">© 2025 PulsePrism · Nikhil Palande</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold:0.08 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
 </html>
