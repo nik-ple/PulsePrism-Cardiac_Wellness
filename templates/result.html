@@ -148,18 +148,18 @@
 </head>
 <body>
 <nav>
-  <a href="index2.html" class="nav-logo">
-    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
-    <div>
-      <div class="nav-logo-name">PulsePrism</div>
-      <div class="nav-logo-sub">Cardiac Wellness</div>
+  <a href="/index" class="nav-logo">
+    <img src="{{ url_for('static', filename='PulsePrism_v2__bg.png') }}" alt="PulsePrism">
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">PulsePrism</span>
+      <span class="nav-logo-sub">Cardiac Wellness</span>
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index2.html">Home</a></li>
-    <li><a href="model2.html">Assessment</a></li>
-    <li><a href="about2.html">Our Approach</a></li>
-    <li><a href="model2.html" class="nav-cta">Run Again</a></li>
+    <li><a href="/index" class="active">Home</a></li>
+    <li><a href="/model">Assessment</a></li>
+    <li><a href="/about">Our Approach</a></li>
+    <li><a href="/model" class="nav-cta">Begin Assessment</a></li>
   </ul>
 </nav>
 
@@ -202,11 +202,11 @@
       </div>
 
       <div class="result-actions">
-        <a href="model2.html" class="btn-filled">
+        <a href="/model" class="btn-filled">
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           Run Another Assessment
         </a>
-        <a href="index2.html" class="btn-outline">← Back to Home</a>
+        <a href="/index" class="btn-outline">← Back to Home</a>
       </div>
     </div>
 
@@ -221,8 +221,8 @@
 </main>
 
 <footer>
-  <a href="index2.html" class="foot-logo">
-    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+  <a href="/index" class="foot-logo">
+    <img src="{{ url_for('static', filename='PulsePrism_v2__bg.png') }}" alt="PulsePrism">
     <span>PulsePrism</span>
   </a>
   <div class="foot-copy">© 2025 PulsePrism · Built by Nikhil Palande</div>

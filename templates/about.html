@@ -180,18 +180,18 @@
 <div class="bg-blob bg-blob-1"></div>
 
 <nav>
-  <a href="index2.html" class="nav-logo">
-    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
-    <div>
-      <div class="nav-logo-name">PulsePrism</div>
-      <div class="nav-logo-sub">Cardiac Wellness</div>
+  <a href="/index" class="nav-logo">
+    <img src="{{ url_for('static', filename='PulsePrism_v2__bg.png') }}" alt="PulsePrism">
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">PulsePrism</span>
+      <span class="nav-logo-sub">Cardiac Wellness</span>
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index2.html">Home</a></li>
-    <li><a href="model2.html">Assessment</a></li>
-    <li><a href="about2.html" class="active">Our Approach</a></li>
-    <li><a href="model2.html" class="nav-cta">Begin Assessment</a></li>
+    <li><a href="/index" class="active">Home</a></li>
+    <li><a href="/model">Assessment</a></li>
+    <li><a href="/about">Our Approach</a></li>
+    <li><a href="/model" class="nav-cta">Begin Assessment</a></li>
   </ul>
 </nav>
 
@@ -358,21 +358,21 @@
 <div class="about-cta">
   <h2>Ready to check your cardiac risk?</h2>
   <p>Free to use. No account needed. Takes 60 seconds.</p>
-  <a href="model2.html" class="btn-filled">
+  <a href="/model" class="btn-filled">
     Begin Your Assessment
     <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
 </div>
 
 <footer>
-  <a href="index2.html" class="foot-logo">
-    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+  <a href="/index" class="foot-logo">
+    <img src="{{ url_for('static', filename='PulsePrism_v2__bg.png') }}" alt="PulsePrism">
     <span>PulsePrism</span>
   </a>
   <div class="foot-links">
-    <a href="index2.html">Home</a>
-    <a href="model2.html">Assessment</a>
-    <a href="about2.html">Our Approach</a>
+    <a href="/index">Home</a>
+    <a href="/model">Assessment</a>
+    <a href="/about">Our Approach</a>
     <a href="https://linkedin.com/in/nikhil-palande" target="_blank">LinkedIn</a>
   </div>
   <div class="foot-copy">© 2025 PulsePrism · Nikhil Palande</div>

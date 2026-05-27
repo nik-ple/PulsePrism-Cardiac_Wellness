@@ -447,18 +447,18 @@
 
 <!-- ── NAV ── -->
 <nav>
-  <a href="index.html" class="nav-logo">
-    <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+  <a href="/index" class="nav-logo">
+    <img src="{{ url_for('static', filename='PulsePrism_v2__bg.png') }}" alt="PulsePrism">
     <div class="nav-logo-text">
       <span class="nav-logo-name">PulsePrism</span>
       <span class="nav-logo-sub">Cardiac Wellness</span>
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="model.html">Assessment</a></li>
-    <li><a href="about.html">Our Approach</a></li>
-    <li><a href="model.html" class="nav-cta">Begin Assessment</a></li>
+    <li><a href="/index" class="active">Home</a></li>
+    <li><a href="/model">Assessment</a></li>
+    <li><a href="/about">Our Approach</a></li>
+    <li><a href="/model" class="nav-cta">Begin Assessment</a></li>
   </ul>
 </nav>
 
@@ -469,11 +469,11 @@
     <h1>Your heart, seen<br>from <em>every angle</em></h1>
     <p class="hero-desc">PulsePrism translates 13 clinical indicators into a clear, explainable cardiac risk assessment — trained on 30 years of validated research data, delivered in under 200ms.</p>
     <div class="hero-actions">
-      <a href="model.html" class="btn-filled">
+      <a href="/model" class="btn-filled">
         Begin Free Assessment
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <a href="about.html" class="btn-outline">Learn more</a>
+      <a href="/about" class="btn-outline">Learn more</a>
     </div>
     <div class="hero-stats">
       <div>
@@ -620,7 +620,7 @@
       <h2>Early awareness is the most powerful cardiac intervention.</h2>
       <p>Most heart disease is preventable when caught early. PulsePrism puts that insight in your hands.</p>
     </div>
-    <a href="model.html" class="btn-cream">
+    <a href="/model" class="btn-cream">
       Start Your Assessment
       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
@@ -633,7 +633,7 @@
     <div class="section-eyebrow" style="justify-content:center;margin-bottom:20px;">Free to use · No account required</div>
     <h2>Know your cardiac risk in 60 seconds</h2>
     <p>Enter your clinical values and receive a data-driven preliminary assessment backed by 30 years of cardiovascular research.</p>
-    <a href="model.html" class="btn-filled" style="font-size:1rem;padding:16px 40px;">Begin Free Assessment</a>
+    <a href="/model" class="btn-filled" style="font-size:1rem;padding:16px 40px;">Begin Free Assessment</a>
     <p class="cta-disclaimer">⚠️ PulsePrism is a screening tool, not a medical diagnosis. Results are for informational purposes only. Always consult a qualified physician before making health decisions.</p>
   </div>
 </section>
@@ -641,8 +641,8 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="foot-brand">
-    <a href="index.html" class="foot-logo">
-      <img src="PulsePrism_v2__bg.png" alt="PulsePrism">
+    <a href="/index" class="foot-logo">
+      <img src="{{ url_for('static', filename='PulsePrism_v2__bg.png') }}" alt="PulsePrism">
       <span>PulsePrism</span>
     </a>
     <p class="foot-tagline">Multi-Angle ML Assessment of Cardiac Wellness. Built with care, not just code.</p>
@@ -651,9 +651,9 @@
   <div>
     <div class="foot-nav-title">Navigate</div>
     <ul class="foot-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="model.html">Assessment Tool</a></li>
-      <li><a href="about.html">Our Approach</a></li>
+      <li><a href="/index">Home</a></li>
+      <li><a href="/model">Assessment Tool</a></li>
+      <li><a href="/about">Our Approach</a></li>
     </ul>
   </div>
   <div>
